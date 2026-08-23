@@ -1,15 +1,19 @@
-const CACHE = "wing-blocks-v2";
+// v3: caminhos RELATIVOS ao scope do service worker — o jogo funciona na raiz
+// OU numa subpasta (portal da Wings Studios). A versão nova também limpa o
+// cache errado de quem abriu a v2 dentro do portal.
+const CACHE = "wing-blocks-v3";
+const NA_PASTA = (caminho) => new URL(caminho, self.registration.scope).href;
 
 self.addEventListener("install", (event) => {
   event.waitUntil(
     caches.open(CACHE).then((cache) =>
       cache.addAll([
-        "/",
-        "/index.html",
-        "/manifest.webmanifest",
-        "/assets/logo_wings_studios.png",
-        "/icons/icon-192.png",
-        "/icons/icon-512.png",
+        NA_PASTA("./"),
+        NA_PASTA("index.html"),
+        NA_PASTA("manifest.webmanifest"),
+        NA_PASTA("assets/logo_wings_studios.png"),
+        NA_PASTA("icons/icon-192.png"),
+        NA_PASTA("icons/icon-512.png"),
       ]),
     ),
   );
@@ -35,10 +39,10 @@ self.addEventListener("fetch", (event) => {
       fetch(event.request)
         .then((response) => {
           const copy = response.clone();
-          void caches.open(CACHE).then((cache) => cache.put("/index.html", copy));
+          void caches.open(CACHE).then((cache) => cache.put(NA_PASTA("index.html"), copy));
           return response;
         })
-        .catch(() => caches.match("/index.html")),
+        .catch(() => caches.match(NA_PASTA("index.html"))),
     );
     return;
   }

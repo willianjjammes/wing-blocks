@@ -9,7 +9,9 @@ export class TitleScene extends Phaser.Scene {
   }
 
   preload(): void {
-    this.load.image("logo", "/assets/logo_wings_studios.png");
+    // Caminho RELATIVO (sem a barra inicial): o jogo pode viver numa subpasta
+    // (ex.: portal da Wings Studios em /wing-blocks/) e a logo continua a carregar.
+    this.load.image("logo", "assets/logo_wings_studios.png");
   }
 
   create(): void {

@@ -2,6 +2,9 @@ import path from "node:path";
 import { defineConfig } from "vitest/config";
 
 export default defineConfig({
+  // Caminhos relativos no build: o jogo funciona na raiz de um servidor OU
+  // dentro de uma subpasta (ex.: o portal da Wings Studios em /wing-blocks/).
+  base: "./",
   resolve: {
     alias: {
       "@domain": path.resolve(__dirname, "src/domain"),
